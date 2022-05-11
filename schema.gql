@@ -1,0 +1,44 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Book {
+  id: ID!
+  title: String!
+  isbn: Int
+  publication_date: String
+  publisher: String
+  author: [Author]
+}
+
+type Author {
+  id: ID!
+  name: String!
+  title: String!
+  book: [Book]
+}
+
+type Query {
+  findAllAuthors: [Author]!
+  findAuthorById(id: ID!): Author!
+  findAllBooks: [Book]!
+  findBookById(id: ID!): Book!
+}
+
+type Mutation {
+  createAuthor(input: CreateAuthorInput!): Author!
+  createBook(input: CrateBookInput!): Book!
+}
+
+input CreateAuthorInput {
+  id: ID!
+  title: String!
+  name: String!
+}
+
+input CrateBookInput {
+  title: String!
+  isbn: Int
+  publication_date: String
+  publisher: String
+}
