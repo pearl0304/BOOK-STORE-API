@@ -10,7 +10,7 @@ type Book {
   isbn: Float
   publication_date: String
   publisher: String
-  author: [Author]
+  author: Author
 }
 
 type Author {

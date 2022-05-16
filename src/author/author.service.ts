@@ -24,7 +24,7 @@ export class AuthorService {
 
   async findAuthorById(authorId: string): Promise<Author> {
     try {
-      return this.authorModel.findById(authorId).lean();
+      return this.authorModel.findById(authorId).exec();
     } catch (e) {
       throw new ApolloError(e);
     }

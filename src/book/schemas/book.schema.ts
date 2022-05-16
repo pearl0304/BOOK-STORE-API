@@ -63,8 +63,8 @@ export class Book {
   publisher: string;
 
   @Prop({ type: { type: mongoose.Schema.Types.ObjectId, ref: 'Author' } })
-  @Field(() => [Author], { nullable: 'itemsAndList' })
-  author: Author[];
+  @Field(() => Author, { nullable: true })
+  author: Author;
 
   // @Prop({ type: { type: mongoose.Schema.Types.ObjectId, ref: 'Like' } })
   // @Field(() => [Author], { nullable: 'itemsAndList' })

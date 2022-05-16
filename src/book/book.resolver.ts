@@ -48,10 +48,11 @@ export class BookResolver {
   }
 
   @ResolveField()
-  async author(@Parent() author: Author) {
-    const { id } = author;
+  async author(@Parent() book: Book) {
+    const { authorId } = book;
+    console.log(authorId);
     try {
-      return this.authorService.findAuthorById(id);
+      return this.authorService.findAuthorById(authorId);
     } catch (e) {
       throw new ApolloError(e);
     }

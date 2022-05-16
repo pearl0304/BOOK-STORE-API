@@ -10,21 +10,24 @@ export class BookService {
 
   async findAllBooks(): Promise<Book[]> {
     try {
-      return this.bookModel.find().lean();
+      return this.bookModel.find().exec();
     } catch (e) {
       throw new ApolloError(e);
     }
   }
   async findBookById(bookId: string): Promise<Book> {
     try {
-      return await this.bookModel.findById(bookId).lean();
+      return await this.bookModel.findById(bookId).exec();
     } catch (e) {
       throw new ApolloError(e);
     }
   }
   async createBook(book: CreateBookInput) {
     try {
-      //TODO: CHECK DUPLICATED
+      // CHECK DUPLICATED
+      const checkBook = await this.bookModel.findOne({ isbn: book.isbn });
+      if (checkBook) throw new ApolloError('This book is already registered');
+
       const result = await this.bookModel.create(book);
       return {
         id: result._id,
