@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Date, Document } from 'mongoose';
-import { Field, ObjectType, ID, InputType } from '@nestjs/graphql';
+import { Field, ObjectType, ID, InputType, Int } from '@nestjs/graphql';
 
 export type UserDocument = User & Document;
 
@@ -50,6 +50,10 @@ export class User {
   @Prop()
   @Field({ nullable: true })
   is_delete: boolean;
+
+  @Prop()
+  @Field(() => Int)
+  point: number;
 }
 
 @InputType()

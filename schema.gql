@@ -31,6 +31,7 @@ type User {
   update_date: String
   delete_date: String
   is_delete: Boolean
+  point: Int!
 }
 
 type Order {
@@ -78,11 +79,13 @@ input CreateAuthorInput {
 }
 
 input CreateBookInput {
+  authorId: ID!
   title: String!
   price: Int!
   isbn: Int
   publication_date: String
   publisher: String
+  genre: String
 }
 
 input CreateUserInput {
