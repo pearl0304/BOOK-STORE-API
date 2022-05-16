@@ -8,7 +8,7 @@ import {
 } from '@nestjs/graphql';
 import { AuthorService } from 'src/author/author.service';
 import { BookService } from './book.service';
-import { Book, CrateBookInput } from './schemas/book.schema';
+import { Book, CreateBookInput } from './schemas/book.schema';
 import { Author } from 'src/author/schemas/author.schema';
 import { ID } from '@nestjs/graphql';
 
@@ -19,7 +19,7 @@ export class BookResolver {
     private authorService: AuthorService,
   ) {}
 
-  @Query(() => [Book], { nullable: 'items' })
+  @Query(() => [Book], { nullable: 'itemsAndList' })
   async findAllBooks() {
     return this.bookService.findAllBooks();
   }
@@ -30,7 +30,7 @@ export class BookResolver {
   }
 
   @Mutation(() => Book)
-  async createBook(@Args('input') book: CrateBookInput) {
+  async createBook(@Args('input') book: CreateBookInput) {
     return this.bookService.createBook(book);
   }
 

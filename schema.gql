@@ -5,6 +5,7 @@
 type Book {
   id: ID!
   title: String!
+  price: Int!
   isbn: Int
   publication_date: String
   publisher: String
@@ -18,16 +19,36 @@ type Author {
   book: [Book]
 }
 
+type User {
+  id: ID!
+  name: String
+  email: String
+  nick: String
+  password: String
+  address: String
+  preferred_genre: String
+  created_date: String
+  update_date: String
+  delete_date: String
+  is_delete: Boolean
+}
+
 type Query {
   findAllAuthors: [Author]!
   findAuthorById(id: ID!): Author!
-  findAllBooks: [Book]!
+  findAllBooks: [Book]
   findBookById(id: ID!): Book!
+  findAllUsers: [User]
+  findUserById(id: ID!): User!
 }
 
 type Mutation {
   createAuthor(input: CreateAuthorInput!): Author!
-  createBook(input: CrateBookInput!): Book!
+  createBook(input: CreateBookInput!): Book!
+  createUser(input: CreateUserInput!): User!
+  updateUserInfo(id: ID!, input: UpdateUserInput!): User!
+  deleteUser(id: ID!): ID!
+  deleteUserByAdmin(id: ID!): ID!
 }
 
 input CreateAuthorInput {
@@ -36,9 +57,28 @@ input CreateAuthorInput {
   name: String!
 }
 
-input CrateBookInput {
+input CreateBookInput {
   title: String!
+  price: Int!
   isbn: Int
   publication_date: String
   publisher: String
+}
+
+input CreateUserInput {
+  name: String!
+  email: String!
+  nick: String!
+  password: String!
+  address: String
+  preferred_genre: String
+}
+
+input UpdateUserInput {
+  email: String
+  name: String
+  nick: String
+  password: String
+  address: String
+  preferred_genre: String
 }

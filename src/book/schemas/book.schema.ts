@@ -17,6 +17,10 @@ export class Book {
   title: string;
 
   @Prop()
+  @Field(() => Int)
+  price: number;
+
+  @Prop()
   @Field(() => Int, { nullable: true })
   isbn: number;
 
@@ -34,9 +38,12 @@ export class Book {
 }
 
 @InputType()
-export class CrateBookInput {
+export class CreateBookInput {
   @Field()
   title: string;
+
+  @Field(() => Int)
+  price: number;
 
   @Field(() => Int, { nullable: true })
   isbn: number;

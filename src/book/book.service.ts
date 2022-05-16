@@ -1,7 +1,7 @@
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Injectable } from '@nestjs/common';
-import { Book, BookDocument, CrateBookInput } from './schemas/book.schema';
+import { Book, BookDocument, CreateBookInput } from './schemas/book.schema';
 
 @Injectable()
 export class BookService {
@@ -10,10 +10,10 @@ export class BookService {
   async findAllBooks(): Promise<Book[]> {
     return this.bookModel.find().lean();
   }
-  async findBookById(bookId: string): Promise<Book[]> {
+  async findBookById(bookId: string): Promise<Book> {
     return await this.bookModel.findById(bookId).lean();
   }
-  async createBook(book: CrateBookInput) {
+  async createBook(book: CreateBookInput) {
     //TODO: CHECK DUPLICATED
     const result = await this.bookModel.create(book);
     return {
