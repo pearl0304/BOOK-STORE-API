@@ -16,10 +16,6 @@ export class Author {
   @Field()
   name: string;
 
-  @Prop()
-  @Field()
-  title: string;
-
   @Prop({ type: { type: mongoose.Schema.Types.ObjectId, ref: 'Book' } })
   @Field(() => [Book], { nullable: 'itemsAndList' })
   book: Book[];
@@ -27,13 +23,10 @@ export class Author {
 
 @InputType()
 export class CreateAuthorInput {
-  @Field(() => ID)
-  id: string;
-
-  @Field()
-  title: string;
-
   @Field()
   name: string;
+
+  @Field({ nullable: true })
+  nationality: string;
 }
 export const AuthorSchema = SchemaFactory.createForClass(Author);

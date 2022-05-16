@@ -12,6 +12,7 @@ import { BookService } from 'src/book/book.service';
 import { Author, CreateAuthorInput } from './schemas/author.schema';
 import { Book } from 'src/book/schemas/book.schema';
 import { ID } from '@nestjs/graphql';
+import { ApolloError } from 'apollo-server-express';
 
 @Resolver(() => Author)
 export class AuthorResolver {
@@ -22,21 +23,37 @@ export class AuthorResolver {
 
   @Query(() => [Author], { nullable: 'items' })
   async findAllAuthors() {
-    return this.authorService.findAllAuthors();
+    try {
+      return this.authorService.findAllAuthors();
+    } catch (e) {
+      throw new ApolloError(e);
+    }
   }
 
   @Query(() => Author)
   async findAuthorById(@Args('id', { type: () => ID }) id: string) {
-    return this.authorService.findAuthorById(id);
+    try {
+      return this.authorService.findAuthorById(id);
+    } catch (e) {
+      throw new ApolloError(e);
+    }
   }
 
   @Mutation(() => Author)
   async createAuthor(@Args('input') author: CreateAuthorInput) {
-    return this.authorService.createAuthor(author);
+    try {
+      return this.authorService.createAuthor(author);
+    } catch (e) {
+      throw new ApolloError(e);
+    }
   }
   @ResolveField()
   async book(@Parent() book: Book) {
     const { id } = book;
-    return this.bookService.findBookById(id);
+    try {
+      return this.bookService.findBookById(id);
+    } catch (e) {
+      throw new ApolloError(e);
+    }
   }
 }

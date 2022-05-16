@@ -4,9 +4,10 @@
 
 type Book {
   id: ID!
+  authorId: ID!
   title: String!
   price: Int!
-  isbn: Int
+  isbn: Float
   publication_date: String
   publisher: String
   author: [Author]
@@ -15,7 +16,6 @@ type Book {
 type Author {
   id: ID!
   name: String!
-  title: String!
   book: [Book]
 }
 
@@ -73,19 +73,33 @@ type Mutation {
 }
 
 input CreateAuthorInput {
-  id: ID!
-  title: String!
   name: String!
+  nationality: String
 }
 
 input CreateBookInput {
   authorId: ID!
   title: String!
   price: Int!
-  isbn: Int
+  isbn: Float
   publication_date: String
   publisher: String
-  genre: String
+  genre: BookGenre
+}
+
+enum BookGenre {
+  FANDASY
+  FICTION
+  SCIENCE_FICTION
+  REALISTIC_FOCTION
+  HISTORICAL_FICTION
+  MYSTERY
+  INFORMATIONAL
+  BIOGRAPHY
+  AUTHOBIOGRAPHY
+  POETRY
+  HUMANITIES
+  STUDY
 }
 
 input CreateUserInput {

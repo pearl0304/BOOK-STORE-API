@@ -8,6 +8,7 @@ import {
   ID,
   InputType,
   registerEnumType,
+  Float,
 } from '@nestjs/graphql';
 import { Author } from '../../author/schemas/author.schema';
 
@@ -15,6 +16,7 @@ export type BookDocument = Book & Document;
 
 export enum BookGenre {
   FANDASY,
+  FICTION,
   SCIENCE_FICTION,
   REALISTIC_FOCTION,
   HISTORICAL_FICTION,
@@ -37,6 +39,10 @@ export class Book {
   id: string;
 
   @Prop()
+  @Field(() => ID)
+  authorId: string;
+
+  @Prop()
   @Field()
   title: string;
 
@@ -45,7 +51,7 @@ export class Book {
   price: number;
 
   @Prop()
-  @Field(() => Int, { nullable: true })
+  @Field(() => Float, { nullable: true })
   isbn: number;
 
   @Prop()
@@ -76,7 +82,7 @@ export class CreateBookInput {
   @Field(() => Int)
   price: number;
 
-  @Field(() => Int, { nullable: true })
+  @Field(() => Float, { nullable: true })
   isbn: number;
 
   @Field({ nullable: true })
@@ -85,7 +91,7 @@ export class CreateBookInput {
   @Field({ nullable: true })
   publisher: string;
 
-  @Field({ nullable: true })
+  @Field(() => BookGenre, { nullable: true })
   genre: string;
 }
 
