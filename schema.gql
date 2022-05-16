@@ -33,6 +33,24 @@ type User {
   is_delete: Boolean
 }
 
+type Order {
+  id: ID!
+  userId: ID!
+  bookId: ID!
+  user: User
+  book: [Book]
+  created_date: String
+  status: OrderStatus!
+  total_price: Int!
+}
+
+enum OrderStatus {
+  PENDING
+  READY
+  DELIVERY
+  DONE
+}
+
 type Query {
   findAllAuthors: [Author]!
   findAuthorById(id: ID!): Author!
@@ -40,6 +58,8 @@ type Query {
   findBookById(id: ID!): Book!
   findAllUsers: [User]
   findUserById(id: ID!): User!
+  findAllMyOrderList: [Order]
+  findOrderById: Order!
 }
 
 type Mutation {

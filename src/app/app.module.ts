@@ -5,6 +5,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { AuthorModule } from 'src/author/author.module';
 import { BookModule } from 'src/book/book.module';
 import { UserModule } from 'src/user/user.module';
+import { OrderModule } from 'src/order/order.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { UserModule } from 'src/user/user.module';
     AuthorModule,
     BookModule,
     UserModule,
+    OrderModule,
   ],
   controllers: [],
   providers: [],
