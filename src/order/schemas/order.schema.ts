@@ -35,12 +35,12 @@ export class Order {
   userId: string;
 
   @Prop()
-  @Field(() => ID)
-  bookId: string;
+  @Field(() => [String])
+  bookIds: string[];
 
   @Prop({ type: { type: mongoose.Schema.Types.ObjectId, ref: 'User' } })
   @Field(() => User, { nullable: true })
-  user: User[];
+  user: User;
 
   @Prop({ type: { type: mongoose.Schema.Types.ObjectId, ref: 'Book' } })
   @Field(() => [Book], { nullable: 'itemsAndList' })
@@ -57,14 +57,27 @@ export class Order {
   @Prop()
   @Field(() => Int)
   total_price: number;
+
+  @Prop()
+  @Field(() => String)
+  delever_address: string;
 }
 
-export class CrateOrderInput {
+@InputType()
+export class CreateOrderInput {
   @Field(() => ID)
   userId: string;
 
-  @Field(() => ID)
-  bookId: string;
-}
+  @Field(() => [String], { nullable: true })
+  bookIds: string[];
 
+  @Field(() => String)
+  delever_address: string;
+
+  @Field(() => Int)
+  total_price: number;
+
+  @Field(() => OrderStatus)
+  status: string;
+}
 export const OrderSchema = SchemaFactory.createForClass(Order);

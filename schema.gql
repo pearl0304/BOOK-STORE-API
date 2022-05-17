@@ -37,12 +37,13 @@ type User {
 type Order {
   id: ID!
   userId: ID!
-  bookId: ID!
+  bookIds: [String!]!
   user: User
   book: [Book]
   created_date: String
   status: OrderStatus!
   total_price: Int!
+  delever_address: String!
 }
 
 enum OrderStatus {
@@ -70,6 +71,7 @@ type Mutation {
   updateUserInfo(id: ID!, input: UpdateUserInput!): User!
   deleteUser(id: ID!): ID!
   deleteUserByAdmin(id: ID!): ID!
+  doOrderBook(input: CreateOrderInput!): Order
 }
 
 input CreateAuthorInput {
@@ -118,4 +120,12 @@ input UpdateUserInput {
   password: String
   address: String
   preferred_genre: String
+}
+
+input CreateOrderInput {
+  userId: ID!
+  bookIds: [String!]
+  delever_address: String!
+  total_price: Int!
+  status: OrderStatus!
 }

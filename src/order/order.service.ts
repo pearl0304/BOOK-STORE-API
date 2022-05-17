@@ -1,12 +1,13 @@
 import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Order, OrderDocument } from './schemas/order.schema';
+import { CreateOrderInput, Order, OrderDocument } from './schemas/order.schema';
 import { ApolloError } from 'apollo-server-express';
+
 @Injectable()
 export class OrderService {
   constructor(
-    @InjectModel(Order.name) private userModel: Model<OrderDocument>,
+    @InjectModel(Order.name) private orderModel: Model<OrderDocument>,
   ) {}
   async findAllMyOrderList() {
     try {
@@ -16,6 +17,23 @@ export class OrderService {
   }
   async findOrderById() {
     try {
+    } catch (e) {
+      throw new ApolloError(e);
+    }
+  }
+  async doOrderBook(order: CreateOrderInput) {
+    try {
+      const data = {
+        ...order,
+        created_date: new Date(),
+      };
+
+      const result = await this.orderModel.create(data);
+
+      return {
+        id: result._id,
+        ...data,
+      };
     } catch (e) {
       throw new ApolloError(e);
     }

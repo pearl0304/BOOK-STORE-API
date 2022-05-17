@@ -8,7 +8,7 @@ import {
   ID,
 } from '@nestjs/graphql';
 import { OrderService } from './order.service';
-import { Order } from './schemas/order.schema';
+import { Order, CreateOrderInput } from './schemas/order.schema';
 import { ApolloError } from 'apollo-server-express';
 import { BookService } from 'src/book/book.service';
 import { Book } from 'src/book/schemas/book.schema';
@@ -40,13 +40,19 @@ export class OrderResolver {
     }
   }
 
-  @ResolveField()
-  async user(@Parent() user: User) {
+  @Mutation(() => Order, { nullable: true })
+  async doOrderBook(@Args('input') order: CreateOrderInput) {
     try {
-    } catch (e) {}
+      return this.orderService.doOrderBook(order);
+    } catch (e) {
+      throw new ApolloError(e);
+    }
   }
 
-  async book(@Parent() book: Book) {
+  @ResolveField()
+  async user(@Parent() order: Order) {
+    const { userId } = order;
+    console.log('userId', userId);
     try {
     } catch (e) {}
   }
