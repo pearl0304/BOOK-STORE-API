@@ -28,7 +28,6 @@ export class LikeService {
   async findUserLike(bookId: string) {
     try {
       const proc = await this.likeModel.find({ bookId: bookId }).exec();
-
       return proc.map((like) => {
         return {
           id: like._id,

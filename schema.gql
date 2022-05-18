@@ -2,24 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Book {
-  id: ID!
-  authorId: ID!
-  title: String!
-  price: Int!
-  isbn: Float
-  publication_date: String
-  publisher: String
-  stock: Int!
-  author: Author
-}
-
-type Author {
-  id: ID!
-  name: String!
-  book: [Book]
-}
-
 type User {
   id: ID!
   name: String
@@ -33,6 +15,35 @@ type User {
   delete_date: String
   is_delete: Boolean
   point: Int!
+}
+
+type Like {
+  id: ID
+  userId: ID!
+  bookId: ID!
+  user: User
+  book: Book
+  action: String!
+}
+
+type Book {
+  id: ID!
+  authorId: ID!
+  title: String!
+  price: Int!
+  isbn: Float
+  publication_date: String
+  publisher: String
+  stock: Int!
+  author: Author
+  like: [Like]
+  total_like: Int!
+}
+
+type Author {
+  id: ID!
+  name: String!
+  book: [Book]
 }
 
 type Order {
@@ -52,15 +63,6 @@ enum OrderStatus {
   READY
   DELIVERY
   DONE
-}
-
-type Like {
-  id: ID
-  userId: ID!
-  bookId: ID!
-  user: User
-  book: Book
-  action: String!
 }
 
 type Query {

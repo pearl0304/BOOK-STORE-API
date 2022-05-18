@@ -8,8 +8,8 @@ import {
 } from '@nestjs/graphql';
 import { AuthorService } from 'src/author/author.service';
 import { BookService } from './book.service';
+import { LikeService } from 'src/like/like.service';
 import { Book, CreateBookInput } from './schemas/book.schema';
-import { Author } from 'src/author/schemas/author.schema';
 import { ID } from '@nestjs/graphql';
 import { ApolloError } from 'apollo-server-express';
 
@@ -18,6 +18,7 @@ export class BookResolver {
   constructor(
     private bookService: BookService,
     private authorService: AuthorService,
+    private likeService: LikeService,
   ) {}
 
   @Query(() => [Book], { nullable: 'itemsAndList' })
@@ -52,6 +53,28 @@ export class BookResolver {
     const { authorId } = book;
     try {
       return await this.authorService.findAuthorById(authorId);
+    } catch (e) {
+      throw new ApolloError(e);
+    }
+  }
+
+  @ResolveField()
+  async like(@Parent() book: Book) {
+    const { id } = book;
+    try {
+      const result = await this.likeService.findUserLike(id);
+      return result;
+    } catch (e) {
+      throw new ApolloError(e);
+    }
+  }
+
+  @ResolveField()
+  async total_like(@Parent() book: Book) {
+    const { id } = book;
+    try {
+      const result = await this.likeService.findUserLike(id);
+      return result.length;
     } catch (e) {
       throw new ApolloError(e);
     }

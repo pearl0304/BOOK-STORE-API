@@ -3,6 +3,7 @@ import { Document } from 'mongoose';
 import * as mongoose from 'mongoose';
 import { Field, Int, ObjectType, ID, InputType, Float } from '@nestjs/graphql';
 import { Author } from '../../author/schemas/author.schema';
+import { Like } from 'src/like/schemas/like.schema';
 
 export type BookDocument = Book & Document;
 
@@ -44,9 +45,13 @@ export class Book {
   @Field(() => Author, { nullable: true })
   author: Author;
 
-  // @Prop({ type: { type: mongoose.Schema.Types.ObjectId, ref: 'Like' } })
-  // @Field(() => [Author], { nullable: 'itemsAndList' })
-  // author: Like[];
+  @Prop({ type: { type: mongoose.Schema.Types.ObjectId, ref: 'Like' } })
+  @Field(() => [Like], { nullable: 'itemsAndList' })
+  like: Like[];
+
+  @Prop()
+  @Field(() => Int)
+  total_like: number;
 }
 
 @InputType()
