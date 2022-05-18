@@ -48,6 +48,19 @@ export class BookResolver {
     }
   }
 
+  @Mutation(() => ID)
+  async deleteBook(@Args('id', { type: () => ID }) id: string) {
+    try {
+      await this.bookService.deleteBook(id);
+      // DELTE RELATED DATA
+      await this.likeService.deleteLike(id);
+
+      return id;
+    } catch (e) {
+      throw new ApolloError(e);
+    }
+  }
+
   @ResolveField()
   async author(@Parent() book: Book) {
     const { authorId } = book;

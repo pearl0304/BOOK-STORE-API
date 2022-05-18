@@ -72,4 +72,13 @@ export class LikeService {
       throw new ApolloError(e);
     }
   }
+
+  async deleteLike(bookId: string) {
+    try {
+      await this.likeModel.deleteMany({ bookId: bookId });
+      return bookId;
+    } catch (e) {
+      throw new ApolloError(e);
+    }
+  }
 }

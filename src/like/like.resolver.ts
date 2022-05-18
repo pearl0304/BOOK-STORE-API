@@ -48,6 +48,14 @@ export class LikeResolver {
     }
   }
 
+  @Mutation(() => ID)
+  async deleteLike(@Args('bookId', { type: () => ID }) bookId: string) {
+    try {
+      return await this.likeService.deleteLike(bookId);
+    } catch (e) {
+      throw new ApolloError(e);
+    }
+  }
   @ResolveField()
   async user(@Parent() like: Like) {
     const { userId } = like;

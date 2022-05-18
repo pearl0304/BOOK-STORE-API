@@ -81,12 +81,14 @@ type Query {
 type Mutation {
   createAuthor(input: CreateAuthorInput!): Author!
   createBook(input: CreateBookInput!): Book!
+  deleteBook(id: ID!): ID!
   createUser(input: CreateUserInput!): User!
   updateUserInfo(id: ID!, input: UpdateUserInput!): User!
   deleteUser(id: ID!): ID!
   deleteUserByAdmin(id: ID!): ID!
   doOrderBook(input: CreateOrderInput!): Order
   doLike(input: CreateLikeInput!): Like
+  deleteLike(bookId: ID!): ID!
 }
 
 input CreateAuthorInput {

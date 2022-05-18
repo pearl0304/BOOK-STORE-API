@@ -37,4 +37,12 @@ export class BookService {
       throw new ApolloError(e);
     }
   }
+  async deleteBook(bookId: string) {
+    try {
+      await this.bookModel.deleteOne({ _id: bookId });
+      return bookId;
+    } catch (e) {
+      throw new ApolloError(e);
+    }
+  }
 }
