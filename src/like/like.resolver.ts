@@ -31,8 +31,9 @@ export class LikeResolver {
     }
   }
   @Query(() => [Like], { nullable: 'itemsAndList' })
-  async findUserLike() {
+  async findUserLike(@Args('bookId', { type: () => ID }) bookId: string) {
     try {
+      return await this.likeService.findUserLike(bookId);
     } catch (e) {
       throw new ApolloError(e);
     }

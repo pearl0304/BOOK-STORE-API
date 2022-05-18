@@ -73,7 +73,7 @@ type Query {
   findAllMyOrderList(userId: ID!): [Order]
   findOrderById: Order!
   findMyLikeList(userId: ID!): [Like]
-  findUserLike: [Like]
+  findUserLike(bookId: ID!): [Like]
 }
 
 type Mutation {

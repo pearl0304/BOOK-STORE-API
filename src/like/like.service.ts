@@ -25,8 +25,18 @@ export class LikeService {
     }
   }
 
-  async findUserLike() {
+  async findUserLike(bookId: string) {
     try {
+      const proc = await this.likeModel.find({ bookId: bookId }).exec();
+
+      return proc.map((like) => {
+        return {
+          id: like._id,
+          userId: like.userId,
+          bookId: like.bookId,
+          action: like.action,
+        };
+      });
     } catch (e) {
       throw new ApolloError(e);
     }
