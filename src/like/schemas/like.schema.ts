@@ -27,8 +27,8 @@ export class Like {
   user: User;
 
   @Prop({ type: { type: mongoose.Schema.Types.ObjectId, ref: 'Book' } })
-  @Field(() => [Book], { nullable: 'itemsAndList' })
-  book: Book[];
+  @Field(() => Book, { nullable: true })
+  book: Book;
 
   @Prop()
   @Field()

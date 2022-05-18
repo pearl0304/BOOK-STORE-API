@@ -59,7 +59,7 @@ type Like {
   userId: ID!
   bookId: ID!
   user: User
-  book: [Book]
+  book: Book
   action: String!
 }
 
@@ -72,7 +72,7 @@ type Query {
   findUserById(id: ID!): User!
   findAllMyOrderList(userId: ID!): [Order]
   findOrderById: Order!
-  findMyLikeList: [Like]
+  findMyLikeList(userId: ID!): [Like]
   findUserLike: [Like]
 }
 

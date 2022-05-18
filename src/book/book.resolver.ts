@@ -23,7 +23,7 @@ export class BookResolver {
   @Query(() => [Book], { nullable: 'itemsAndList' })
   async findAllBooks() {
     try {
-      return this.bookService.findAllBooks();
+      return await this.bookService.findAllBooks();
     } catch (e) {
       throw new ApolloError(e);
     }
@@ -32,7 +32,7 @@ export class BookResolver {
   @Query(() => Book)
   async findBookById(@Args('id', { type: () => ID }) id: string) {
     try {
-      return this.bookService.findBookById(id);
+      return await this.bookService.findBookById(id);
     } catch (e) {
       throw new ApolloError(e);
     }
@@ -41,7 +41,7 @@ export class BookResolver {
   @Mutation(() => Book)
   async createBook(@Args('input') book: CreateBookInput) {
     try {
-      return this.bookService.createBook(book);
+      return await this.bookService.createBook(book);
     } catch (e) {
       throw new ApolloError(e);
     }
@@ -51,7 +51,7 @@ export class BookResolver {
   async author(@Parent() book: Book) {
     const { authorId } = book;
     try {
-      return this.authorService.findAuthorById(authorId);
+      return await this.authorService.findAuthorById(authorId);
     } catch (e) {
       throw new ApolloError(e);
     }

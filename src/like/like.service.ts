@@ -8,8 +8,18 @@ import { ApolloError } from 'apollo-server-express';
 export class LikeService {
   constructor(@InjectModel(Like.name) private likeModel: Model<LikeDocument>) {}
 
-  async findMyLikeList() {
+  async findMyLikeList(userId: string) {
     try {
+      const proc = await this.likeModel.find({ userId: userId }).exec();
+
+      return proc.map((like) => {
+        return {
+          id: like._id,
+          userId: like.userId,
+          bookId: like.bookId,
+          action: like.action,
+        };
+      });
     } catch (e) {
       throw new ApolloError(e);
     }
@@ -28,10 +38,12 @@ export class LikeService {
       let result = null;
       if (action == 'ADD') {
         // CHECK DUPLICATE
-        const check_duplecate = await this.likeModel.findOne({
-          userId: like.userId,
-          bookId: like.bookId,
-        });
+        const check_duplecate = await this.likeModel
+          .findOne({
+            userId: like.userId,
+            bookId: like.bookId,
+          })
+          .exec();
         if (check_duplecate) throw new ApolloError('Alreay you done like');
         result = await this.likeModel.create(like);
         return {

@@ -23,8 +23,9 @@ export class LikeResolver {
   ) {}
 
   @Query(() => [Like], { nullable: 'itemsAndList' })
-  async findMyLikeList() {
+  async findMyLikeList(@Args('userId', { type: () => ID }) userId: string) {
     try {
+      return await this.likeService.findMyLikeList(userId);
     } catch (e) {
       throw new ApolloError(e);
     }
@@ -40,15 +41,29 @@ export class LikeResolver {
   @Mutation(() => Like, { nullable: true })
   async doLike(@Args('input') like: CreateLikeInput) {
     try {
-      return this.likeService.doLike(like);
+      return await this.likeService.doLike(like);
     } catch (e) {
       throw new ApolloError(e);
     }
   }
 
-  // @ResolveField()
-  // async user(@Parent()) {}
+  @ResolveField()
+  async user(@Parent() like: Like) {
+    const { userId } = like;
+    try {
+      return await this.userService.findUserById(userId);
+    } catch (e) {
+      throw new ApolloError(e);
+    }
+  }
 
-  // @ResolveField()
-  // async book(@Parent()) {}
+  @ResolveField()
+  async book(@Parent() like: Like) {
+    const { bookId } = like;
+    try {
+      return await this.bookService.findBookById(bookId);
+    } catch (e) {
+      throw new ApolloError(e);
+    }
+  }
 }
