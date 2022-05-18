@@ -8,7 +8,7 @@ import {
 } from '@nestjs/graphql';
 
 import { LikeService } from './like.service';
-import { Like } from './schemas/like.schema';
+import { CreateLikeInput, Like } from './schemas/like.schema';
 import { ID } from '@nestjs/graphql';
 import { ApolloError } from 'apollo-server-express';
 import { UserService } from 'src/user/user.service';
@@ -22,7 +22,33 @@ export class LikeResolver {
     private bookService: BookService,
   ) {}
 
-  // findMyLikeList
-  // findLikeUsers
-  // doLike
+  @Query(() => [Like], { nullable: 'itemsAndList' })
+  async findMyLikeList() {
+    try {
+    } catch (e) {
+      throw new ApolloError(e);
+    }
+  }
+  @Query(() => [Like], { nullable: 'itemsAndList' })
+  async findUserLike() {
+    try {
+    } catch (e) {
+      throw new ApolloError(e);
+    }
+  }
+
+  @Mutation(() => Like, { nullable: true })
+  async doLike(@Args('input') like: CreateLikeInput) {
+    try {
+      return this.likeService.doLike(like);
+    } catch (e) {
+      throw new ApolloError(e);
+    }
+  }
+
+  // @ResolveField()
+  // async user(@Parent()) {}
+
+  // @ResolveField()
+  // async book(@Parent()) {}
 }

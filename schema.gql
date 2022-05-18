@@ -54,6 +54,15 @@ enum OrderStatus {
   DONE
 }
 
+type Like {
+  id: ID
+  userId: ID!
+  bookId: ID!
+  user: User
+  book: [Book]
+  action: String!
+}
+
 type Query {
   findAllAuthors: [Author]!
   findAuthorById(id: ID!): Author!
@@ -63,6 +72,8 @@ type Query {
   findUserById(id: ID!): User!
   findAllMyOrderList(userId: ID!): [Order]
   findOrderById: Order!
+  findMyLikeList: [Like]
+  findUserLike: [Like]
 }
 
 type Mutation {
@@ -73,6 +84,7 @@ type Mutation {
   deleteUser(id: ID!): ID!
   deleteUserByAdmin(id: ID!): ID!
   doOrderBook(input: CreateOrderInput!): Order
+  doLike(input: CreateLikeInput!): Like
 }
 
 input CreateAuthorInput {
@@ -114,4 +126,11 @@ input CreateOrderInput {
   bookIds: [String!]
   delever_address: String!
   total_price: Int!
+}
+
+input CreateLikeInput {
+  id: ID
+  userId: ID!
+  bookId: ID!
+  action: String!
 }

@@ -11,23 +11,23 @@ export type LikeDocument = Like & Document;
 @ObjectType()
 export class Like {
   @Prop()
-  @Field(() => ID)
+  @Field(() => ID, { nullable: true })
   id: string;
 
   @Prop()
   @Field(() => ID)
   userId: string;
 
-  @Prop({ type: { type: mongoose.Schema.Types.ObjectId, ref: 'User' } })
-  @Field(() => User)
-  user: User;
-
   @Prop()
   @Field(() => ID)
   bookId: string;
 
+  @Prop({ type: { type: mongoose.Schema.Types.ObjectId, ref: 'User' } })
+  @Field(() => User, { nullable: true })
+  user: User;
+
   @Prop({ type: { type: mongoose.Schema.Types.ObjectId, ref: 'Book' } })
-  @Field(() => ID)
+  @Field(() => [Book], { nullable: 'itemsAndList' })
   book: Book[];
 
   @Prop()
@@ -37,20 +37,14 @@ export class Like {
 
 @InputType()
 export class CreateLikeInput {
-  @Field(() => ID)
+  @Field(() => ID, { nullable: true })
   id: string;
 
   @Field(() => ID)
   userId: string;
 
-  @Field(() => User)
-  user: User;
-
   @Field(() => ID)
   bookId: string;
-
-  @Field(() => ID)
-  book: Book[];
 
   @Field()
   action: string;
