@@ -24,9 +24,9 @@ export class OrderResolver {
   ) {}
 
   @Query(() => [Order], { nullable: 'itemsAndList' })
-  async findAllMyOrderList() {
+  async findAllMyOrderList(@Args('userId', { type: () => ID }) userId: string) {
     try {
-      return this.orderService.findAllMyOrderList();
+      return this.orderService.findAllMyOrderList(userId);
     } catch (e) {
       throw new ApolloError(e);
     }
@@ -52,8 +52,13 @@ export class OrderResolver {
   @ResolveField()
   async user(@Parent() order: Order) {
     const { userId } = order;
-    console.log('userId', userId);
     try {
-    } catch (e) {}
+      return this.userService.findUserById(userId);
+    } catch (e) {
+      throw new ApolloError(e);
+    }
   }
+
+  // @ResolveField()
+  // async book(@Parent() order: Order) {}
 }

@@ -1,36 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import * as mongoose from 'mongoose';
-import {
-  Field,
-  Int,
-  ObjectType,
-  ID,
-  InputType,
-  registerEnumType,
-  Float,
-} from '@nestjs/graphql';
+import { Field, Int, ObjectType, ID, InputType, Float } from '@nestjs/graphql';
 import { Author } from '../../author/schemas/author.schema';
 
 export type BookDocument = Book & Document;
-
-export enum BookGenre {
-  FANDASY,
-  FICTION,
-  SCIENCE_FICTION,
-  REALISTIC_FOCTION,
-  HISTORICAL_FICTION,
-  MYSTERY,
-  INFORMATIONAL,
-  BIOGRAPHY,
-  AUTHOBIOGRAPHY,
-  POETRY,
-  HUMANITIES,
-  STUDY,
-}
-registerEnumType(BookGenre, {
-  name: 'BookGenre',
-});
 
 @Schema()
 @ObjectType()
@@ -62,6 +36,10 @@ export class Book {
   @Field({ nullable: true })
   publisher: string;
 
+  @Prop()
+  @Field(() => Int)
+  stock: number;
+
   @Prop({ type: { type: mongoose.Schema.Types.ObjectId, ref: 'Author' } })
   @Field(() => Author, { nullable: true })
   author: Author;
@@ -91,8 +69,12 @@ export class CreateBookInput {
   @Field({ nullable: true })
   publisher: string;
 
-  @Field(() => BookGenre, { nullable: true })
+  @Field(() => String, { nullable: true })
   genre: string;
+
+  @Prop()
+  @Field(() => Int, { nullable: true })
+  stock: number;
 }
 
 export const BookSchema = SchemaFactory.createForClass(Book);

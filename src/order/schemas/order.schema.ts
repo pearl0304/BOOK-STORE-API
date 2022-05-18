@@ -76,8 +76,6 @@ export class CreateOrderInput {
 
   @Field(() => Int)
   total_price: number;
-
-  @Field(() => OrderStatus)
-  status: string;
 }
+
 export const OrderSchema = SchemaFactory.createForClass(Order);

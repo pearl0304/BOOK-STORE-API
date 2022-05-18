@@ -9,8 +9,9 @@ export class OrderService {
   constructor(
     @InjectModel(Order.name) private orderModel: Model<OrderDocument>,
   ) {}
-  async findAllMyOrderList() {
+  async findAllMyOrderList(userId: string) {
     try {
+      return await this.orderModel.find({ userId: userId }).exec();
     } catch (e) {
       throw new ApolloError(e);
     }
@@ -25,6 +26,7 @@ export class OrderService {
     try {
       const data = {
         ...order,
+        status: 'PENDING',
         created_date: new Date(),
       };
 

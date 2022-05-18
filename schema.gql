@@ -10,6 +10,7 @@ type Book {
   isbn: Float
   publication_date: String
   publisher: String
+  stock: Int!
   author: Author
 }
 
@@ -60,7 +61,7 @@ type Query {
   findBookById(id: ID!): Book!
   findAllUsers: [User]
   findUserById(id: ID!): User!
-  findAllMyOrderList: [Order]
+  findAllMyOrderList(userId: ID!): [Order]
   findOrderById: Order!
 }
 
@@ -86,22 +87,8 @@ input CreateBookInput {
   isbn: Float
   publication_date: String
   publisher: String
-  genre: BookGenre
-}
-
-enum BookGenre {
-  FANDASY
-  FICTION
-  SCIENCE_FICTION
-  REALISTIC_FOCTION
-  HISTORICAL_FICTION
-  MYSTERY
-  INFORMATIONAL
-  BIOGRAPHY
-  AUTHOBIOGRAPHY
-  POETRY
-  HUMANITIES
-  STUDY
+  genre: String
+  stock: Int
 }
 
 input CreateUserInput {
@@ -127,5 +114,4 @@ input CreateOrderInput {
   bookIds: [String!]
   delever_address: String!
   total_price: Int!
-  status: OrderStatus!
 }
