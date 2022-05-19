@@ -4,10 +4,10 @@ import * as mongoose from 'mongoose';
 import { Field, ObjectType, ID, InputType } from '@nestjs/graphql';
 import { Book } from 'src/book/schemas/book.schema';
 
-export type AuthorDocument = AuthorMongo & Document;
+export type TranslatorDocument = TranlatorMongo & Document;
 
 @Schema()
-export class AuthorMongo {
+export class TranlatorMongo {
   id: string;
 
   @Prop()
@@ -16,10 +16,10 @@ export class AuthorMongo {
   @Prop({ type: { type: mongoose.Schema.Types.ObjectId, ref: 'Book' } })
   book: Book[];
 }
-export const AuthorSchema = SchemaFactory.createForClass(AuthorMongo);
+export const TranlatorSchema = SchemaFactory.createForClass(TranlatorMongo);
 
 @ObjectType()
-export class Author {
+export class Tranlator {
   @Field(() => ID)
   id: string;
 
@@ -31,7 +31,7 @@ export class Author {
 }
 
 @InputType()
-export class CreateAuthorInput {
+export class CreateTranlatorInput {
   @Field()
   name: string;
 

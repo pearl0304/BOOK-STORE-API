@@ -7,6 +7,7 @@ import { BookModule } from 'src/book/book.module';
 import { UserModule } from 'src/user/user.module';
 import { OrderModule } from 'src/order/order.module';
 import { LikeModule } from 'src/like/like.module';
+import { TranslatorModule } from 'src/translator/translator.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { LikeModule } from 'src/like/like.module';
     UserModule,
     OrderModule,
     LikeModule,
+    TranslatorModule,
   ],
   controllers: [],
   providers: [],

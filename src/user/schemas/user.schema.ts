@@ -10,7 +10,7 @@ import {
 } from '@nestjs/graphql';
 import { IsEmail, Length } from 'class-validator';
 
-export type UserDocument = User & Document;
+export type UserDocument = UserMongo & Document;
 
 @Schema()
 export class UserMongo {
@@ -56,6 +56,7 @@ export class UserMongo {
   @Prop()
   point: number;
 }
+export const UserSchema = SchemaFactory.createForClass(UserMongo);
 
 @ObjectType()
 export class User {
@@ -133,5 +134,3 @@ export class UserInputType {
   @Field({ nullable: true })
   preferred_genre: string;
 }
-
-export const UserSchema = SchemaFactory.createForClass(UserMongo);
