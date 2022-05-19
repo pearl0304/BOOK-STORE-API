@@ -1,7 +1,12 @@
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Injectable } from '@nestjs/common';
-import { Book, BookDocument, CreateBookInput } from './schemas/book.schema';
+import {
+  Book,
+  BookDocument,
+  BookInputType,
+  UpdateBookType,
+} from './schemas/book.schema';
 import { ApolloError } from 'apollo-server-express';
 
 @Injectable()
@@ -22,7 +27,7 @@ export class BookService {
       throw new ApolloError(e);
     }
   }
-  async createBook(book: CreateBookInput) {
+  async createBook(book: BookInputType) {
     try {
       // CHECK DUPLICATED
       const checkBook = await this.bookModel.findOne({ isbn: book.isbn });
@@ -37,6 +42,20 @@ export class BookService {
       throw new ApolloError(e);
     }
   }
+
+  async updateBook(bookId: string, book: UpdateBookType) {
+    try {
+      if (!bookId) throw new ApolloError('Please input bookId ');
+      return await this.bookModel.findOneAndUpdate(
+        { _id: bookId },
+        { $set: { ...book } },
+        { new: true },
+      );
+    } catch (e) {
+      throw new ApolloError(e);
+    }
+  }
+
   async deleteBook(bookId: string) {
     try {
       await this.bookModel.deleteOne({ _id: bookId });

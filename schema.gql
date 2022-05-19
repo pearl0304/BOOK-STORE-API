@@ -2,6 +2,12 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Tranlator {
+  id: ID!
+  name: String!
+  book: [Book]
+}
+
 type User {
   id: ID!
   name: String
@@ -31,15 +37,33 @@ type Like {
 type Book {
   id: ID!
   authorId: ID!
+  translatorId: ID
   title: String!
   price: Int!
   isbn: Float
+  total_page: Float
+  book_size: String
   publication_date: String
   publisher: String
   stock: Int!
+  status: BookStatus!
   author: Author
+  translator: Tranlator
   like: [Like]
   total_like: Int!
+  genre: BookGenre!
+}
+
+enum BookStatus {
+  SALE
+  SOLD_OUT
+  READY
+}
+
+enum BookGenre {
+  FICTION
+  FINANCE
+  HUMANITIES
 }
 
 type Author {
@@ -67,12 +91,6 @@ enum OrderStatus {
   DONE
 }
 
-type Tranlator {
-  id: ID!
-  name: String!
-  book: [Book]
-}
-
 type Query {
   findAllAuthors: [Author]
   findAuthorById(id: ID!): Author!
@@ -90,7 +108,8 @@ type Query {
 
 type Mutation {
   createAuthor(input: CreateAuthorInput!): Author!
-  createBook(input: CreateBookInput!): Book!
+  createBook(input: BookInputType!): Book!
+  updateBook(id: ID!, input: UpdateBookType!): Book!
   deleteBook(id: ID!): ID!
   createUser(input: UserInputType!): User!
   updateUserInfo(id: ID!, input: UserInputType!): User!
@@ -107,15 +126,25 @@ input CreateAuthorInput {
   nationality: String
 }
 
-input CreateBookInput {
+input BookInputType {
   authorId: ID!
+  translatorId: ID
   title: String!
   price: Int!
   isbn: Float
+  total_page: Float
+  book_size: String
   publication_date: String
   publisher: String
-  genre: String
+  stock: Int!
+  status: BookStatus!
+  genre: BookGenre!
+}
+
+input UpdateBookType {
+  price: Int
   stock: Int
+  status: BookStatus
 }
 
 input UserInputType {

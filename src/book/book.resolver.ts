@@ -9,7 +9,8 @@ import {
 import { AuthorService } from 'src/author/author.service';
 import { BookService } from './book.service';
 import { LikeService } from 'src/like/like.service';
-import { Book, CreateBookInput } from './schemas/book.schema';
+import { TranslatorService } from 'src/translator/translator.service';
+import { Book, BookInputType, UpdateBookType } from './schemas/book.schema';
 import { ID } from '@nestjs/graphql';
 import { ApolloError } from 'apollo-server-express';
 
@@ -19,6 +20,7 @@ export class BookResolver {
     private bookService: BookService,
     private authorService: AuthorService,
     private likeService: LikeService,
+    private translatorService: TranslatorService,
   ) {}
 
   @Query(() => [Book], { nullable: 'itemsAndList' })
@@ -40,9 +42,21 @@ export class BookResolver {
   }
 
   @Mutation(() => Book)
-  async createBook(@Args('input') book: CreateBookInput) {
+  async createBook(@Args('input') book: BookInputType) {
     try {
       return await this.bookService.createBook(book);
+    } catch (e) {
+      throw new ApolloError(e);
+    }
+  }
+
+  @Mutation(() => Book)
+  async updateBook(
+    @Args('id', { type: () => ID }) id: string,
+    @Args('input') book: UpdateBookType,
+  ) {
+    try {
+      return await this.bookService.updateBook(id, book);
     } catch (e) {
       throw new ApolloError(e);
     }
@@ -66,6 +80,16 @@ export class BookResolver {
     const { authorId } = book;
     try {
       return await this.authorService.findAuthorById(authorId);
+    } catch (e) {
+      throw new ApolloError(e);
+    }
+  }
+
+  @ResolveField()
+  async translator(@Parent() book: Book) {
+    const { translatorId } = book;
+    try {
+      return await this.translatorService.findTranslatorById(translatorId);
     } catch (e) {
       throw new ApolloError(e);
     }

@@ -7,6 +7,11 @@ import { Book, BookSchema } from './schemas/book.schema';
 import { AuthorService } from '../author/author.service';
 import { AuthorSchema, Author } from 'src/author/schemas/author.schema';
 import { Like, LikeSchema } from 'src/like/schemas/like.schema';
+import { TranslatorService } from 'src/translator/translator.service';
+import {
+  Tranlator,
+  TranlatorSchema,
+} from 'src/translator/schemas/translator.schema';
 
 @Module({
   imports: [
@@ -14,8 +19,15 @@ import { Like, LikeSchema } from 'src/like/schemas/like.schema';
       { name: Book.name, schema: BookSchema },
       { name: Author.name, schema: AuthorSchema },
       { name: Like.name, schema: LikeSchema },
+      { name: Tranlator.name, schema: TranlatorSchema },
     ]),
   ],
-  providers: [BookService, BookResolver, AuthorService, LikeService],
+  providers: [
+    BookService,
+    BookResolver,
+    AuthorService,
+    LikeService,
+    TranslatorService,
+  ],
 })
 export class BookModule {}
