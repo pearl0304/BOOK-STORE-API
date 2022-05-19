@@ -29,9 +29,6 @@ export class UserSchema_ {
   @Prop()
   password: string;
 
-  @Prop({ default: '' })
-  hashed_password: string;
-
   @Prop()
   address1: string;
 
