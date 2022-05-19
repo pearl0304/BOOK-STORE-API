@@ -8,18 +8,9 @@ import { ApolloError } from 'apollo-server-express';
 export class LikeService {
   constructor(@InjectModel(Like.name) private likeModel: Model<LikeDocument>) {}
 
-  async findMyLikeList(userId: string) {
+  async findMyLikeList(userId: string): Promise<Like[]> {
     try {
-      const proc = await this.likeModel.find({ userId: userId }).exec();
-
-      return proc.map((like) => {
-        return {
-          id: like._id,
-          userId: like.userId,
-          bookId: like.bookId,
-          action: like.action,
-        };
-      });
+      return await this.likeModel.find({ userId: userId }).exec();
     } catch (e) {
       throw new ApolloError(e);
     }
@@ -27,15 +18,7 @@ export class LikeService {
 
   async findUserLike(bookId: string) {
     try {
-      const proc = await this.likeModel.find({ bookId: bookId }).exec();
-      return proc.map((like) => {
-        return {
-          id: like._id,
-          userId: like.userId,
-          bookId: like.bookId,
-          action: like.action,
-        };
-      });
+      return await this.likeModel.find({ bookId: bookId }).exec();
     } catch (e) {
       throw new ApolloError(e);
     }

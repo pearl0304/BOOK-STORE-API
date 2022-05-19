@@ -31,7 +31,12 @@ type Like {
   bookId: ID!
   user: User
   book: Book
-  action: String!
+  action: ActionType!
+}
+
+enum ActionType {
+  ADD
+  REMOVE
 }
 
 type Book {
@@ -169,7 +174,7 @@ input CreateLikeInput {
   id: ID
   userId: ID!
   bookId: ID!
-  action: String!
+  action: ActionType!
 }
 
 input CreateTranlatorInput {
