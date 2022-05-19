@@ -1,12 +1,7 @@
 import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import {
-  User,
-  UserDocument,
-  CreateUserInput,
-  UpdateUserInput,
-} from './schemas/user.schema';
+import { User, UserDocument, UserInputType } from './schemas/user.schema';
 import { ApolloError } from 'apollo-server-express';
 
 @Injectable()
@@ -30,7 +25,7 @@ export class UserService {
     }
   }
 
-  async createUser(user: CreateUserInput) {
+  async createUser(user: UserInputType) {
     try {
       // CHECK DUPLICATE EAMIL AND NICKNAME
       const checnkEmail = await this.userModel
@@ -60,7 +55,7 @@ export class UserService {
       throw new ApolloError(e);
     }
   }
-  async updateUserInfo(userId: string, user: UpdateUserInput) {
+  async updateUserInfo(userId: string, user: UserInputType) {
     try {
       // CHECK User
       const checkUser = await this.userModel.findOne({ _id: userId }).exec();

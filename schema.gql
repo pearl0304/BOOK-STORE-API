@@ -8,13 +8,15 @@ type User {
   email: String
   nick: String
   password: String
-  address: String
+  address1: String
+  address2: String
+  zip_code: String
   preferred_genre: String
   created_date: String
   update_date: String
   delete_date: String
   is_delete: Boolean
-  point: Int!
+  point: Int
 }
 
 type Like {
@@ -82,8 +84,8 @@ type Mutation {
   createAuthor(input: CreateAuthorInput!): Author!
   createBook(input: CreateBookInput!): Book!
   deleteBook(id: ID!): ID!
-  createUser(input: CreateUserInput!): User!
-  updateUserInfo(id: ID!, input: UpdateUserInput!): User!
+  createUser(input: UserInputType!): User!
+  updateUserInfo(id: ID!, input: UserInputType!): User!
   deleteUser(id: ID!): ID!
   deleteUserByAdmin(id: ID!): ID!
   doOrderBook(input: CreateOrderInput!): Order
@@ -107,21 +109,14 @@ input CreateBookInput {
   stock: Int
 }
 
-input CreateUserInput {
+input UserInputType {
   name: String!
   email: String!
   nick: String!
   password: String!
-  address: String
-  preferred_genre: String
-}
-
-input UpdateUserInput {
-  email: String
-  name: String
-  nick: String
-  password: String
-  address: String
+  address1: String
+  address2: String
+  zip_code: String
   preferred_genre: String
 }
 

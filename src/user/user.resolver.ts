@@ -8,7 +8,7 @@ import {
   ID,
 } from '@nestjs/graphql';
 import { UserService } from './user.service';
-import { User, CreateUserInput, UpdateUserInput } from './schemas/user.schema';
+import { User, UserInputType } from './schemas/user.schema';
 import { ApolloError } from 'apollo-server-express';
 
 @Resolver()
@@ -34,7 +34,7 @@ export class UserResolver {
   }
 
   @Mutation(() => User)
-  async createUser(@Args('input') user: CreateUserInput) {
+  async createUser(@Args('input') user: UserInputType) {
     try {
       return this.userService.createUser(user);
     } catch (e) {
@@ -45,7 +45,7 @@ export class UserResolver {
   @Mutation(() => User)
   async updateUserInfo(
     @Args('id', { type: () => ID }) id: string,
-    @Args('input') user: UpdateUserInput,
+    @Args('input') user: UserInputType,
   ) {
     try {
       return this.userService.updateUserInfo(id, user);
