@@ -56,7 +56,7 @@ export class LikeService {
     }
   }
 
-  async deleteLike(bookId: string) {
+  async deleteLikeByBookId(bookId: string) {
     try {
       await this.likeModel.deleteMany({ bookId: bookId });
       return bookId;

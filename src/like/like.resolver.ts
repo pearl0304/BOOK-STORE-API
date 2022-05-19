@@ -5,11 +5,11 @@ import {
   Parent,
   ResolveField,
   Resolver,
+  ID,
 } from '@nestjs/graphql';
 
 import { LikeService } from './like.service';
 import { CreateLikeInput, Like } from './schemas/like.schema';
-import { ID } from '@nestjs/graphql';
 import { ApolloError } from 'apollo-server-express';
 import { UserService } from 'src/user/user.service';
 import { BookService } from 'src/book/book.service';
@@ -49,9 +49,9 @@ export class LikeResolver {
   }
 
   @Mutation(() => ID)
-  async deleteLike(@Args('bookId', { type: () => ID }) bookId: string) {
+  async deleteLikeByBookId(@Args('bookId', { type: () => ID }) bookId: string) {
     try {
-      return await this.likeService.deleteLike(bookId);
+      return await this.likeService.deleteLikeByBookId(bookId);
     } catch (e) {
       throw new ApolloError(e);
     }

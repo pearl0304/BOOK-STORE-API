@@ -12,6 +12,8 @@ import {
   Tranlator,
   TranlatorSchema,
 } from 'src/translator/schemas/translator.schema';
+import { Cart, CartSchema } from 'src/cart/schemas/cart.schema';
+import { CartService } from 'src/cart/cart.service';
 
 @Module({
   imports: [
@@ -20,6 +22,7 @@ import {
       { name: Author.name, schema: AuthorSchema },
       { name: Like.name, schema: LikeSchema },
       { name: Tranlator.name, schema: TranlatorSchema },
+      { name: Cart.name, schema: CartSchema },
     ]),
   ],
   providers: [
@@ -28,6 +31,7 @@ import {
     AuthorService,
     LikeService,
     TranslatorService,
+    CartService,
   ],
 })
 export class BookModule {}

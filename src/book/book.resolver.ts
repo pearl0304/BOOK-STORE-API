@@ -10,6 +10,7 @@ import { AuthorService } from 'src/author/author.service';
 import { BookService } from './book.service';
 import { LikeService } from 'src/like/like.service';
 import { TranslatorService } from 'src/translator/translator.service';
+import { CartService } from 'src/cart/cart.service';
 import { Book, BookInputType, UpdateBookType } from './schemas/book.schema';
 import { ID } from '@nestjs/graphql';
 import { ApolloError } from 'apollo-server-express';
@@ -21,6 +22,7 @@ export class BookResolver {
     private authorService: AuthorService,
     private likeService: LikeService,
     private translatorService: TranslatorService,
+    private cartService: CartService,
   ) {}
 
   @Query(() => [Book], { nullable: 'itemsAndList' })
@@ -67,7 +69,8 @@ export class BookResolver {
     try {
       await this.bookService.deleteBook(id);
       // DELTE RELATED DATA
-      await this.likeService.deleteLike(id);
+      await this.likeService.deleteLikeByBookId(id);
+      await this.cartService.deleteCartByBookId(id);
 
       return id;
     } catch (e) {

@@ -77,6 +77,15 @@ type Author {
   book: [Book]
 }
 
+type Cart {
+  id: ID
+  userId: ID!
+  bookId: ID!
+  user: User
+  book: Book
+  action: ActionType!
+}
+
 type Order {
   id: ID!
   userId: ID!
@@ -109,6 +118,7 @@ type Query {
   findUserLike(bookId: ID!): [Like]
   findAllTranslators: [Tranlator]
   findTranslatorById(id: ID!): Tranlator!
+  findMyCartList(userId: ID!): [Cart]
 }
 
 type Mutation {
@@ -122,8 +132,10 @@ type Mutation {
   deleteUserByAdmin(id: ID!): ID!
   doOrderBook(input: CreateOrderInput!): Order
   doLike(input: CreateLikeInput!): Like
-  deleteLike(bookId: ID!): ID!
+  deleteLikeByBookId(bookId: ID!): ID!
   createTranslator(input: CreateTranlatorInput!): Tranlator!
+  createCart(input: CreateCartInput!): Cart
+  deleteCartByBookId(bookId: ID!): ID!
 }
 
 input CreateAuthorInput {
@@ -180,4 +192,11 @@ input CreateLikeInput {
 input CreateTranlatorInput {
   name: String!
   nationality: String
+}
+
+input CreateCartInput {
+  id: ID
+  userId: ID!
+  bookId: ID!
+  action: ActionType!
 }
