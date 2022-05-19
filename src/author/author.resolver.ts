@@ -21,7 +21,7 @@ export class AuthorResolver {
     private authorService: AuthorService,
   ) {}
 
-  @Query(() => [Author], { nullable: 'items' })
+  @Query(() => [Author], { nullable: 'itemsAndList' })
   async findAllAuthors() {
     try {
       return this.authorService.findAllAuthors();

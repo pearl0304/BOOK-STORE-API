@@ -7,16 +7,24 @@ import { Book } from 'src/book/schemas/book.schema';
 export type AuthorDocument = Author & Document;
 
 @Schema()
+export class AuthorMongo {
+  id: string;
+
+  @Prop()
+  name: string;
+
+  @Prop({ type: { type: mongoose.Schema.Types.ObjectId, ref: 'Book' } })
+  book: Book[];
+}
+
 @ObjectType()
 export class Author {
   @Field(() => ID)
   id: string;
 
-  @Prop()
   @Field()
   name: string;
 
-  @Prop({ type: { type: mongoose.Schema.Types.ObjectId, ref: 'Book' } })
   @Field(() => [Book], { nullable: 'itemsAndList' })
   book: Book[];
 }
@@ -29,4 +37,4 @@ export class CreateAuthorInput {
   @Field({ nullable: true })
   nationality: string;
 }
-export const AuthorSchema = SchemaFactory.createForClass(Author);
+export const AuthorSchema = SchemaFactory.createForClass(AuthorMongo);

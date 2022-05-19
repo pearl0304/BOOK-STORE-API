@@ -68,7 +68,7 @@ enum OrderStatus {
 }
 
 type Query {
-  findAllAuthors: [Author]!
+  findAllAuthors: [Author]
   findAuthorById(id: ID!): Author!
   findAllBooks: [Book]
   findBookById(id: ID!): Book!

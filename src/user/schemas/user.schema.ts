@@ -13,7 +13,7 @@ import { IsEmail, Length } from 'class-validator';
 export type UserDocument = User & Document;
 
 @Schema()
-export class UserSchema_ {
+export class UserMongo {
   id: string;
 
   @Prop()
@@ -134,4 +134,4 @@ export class UserInputType {
   preferred_genre: string;
 }
 
-export const UserSchema = SchemaFactory.createForClass(UserSchema_);
+export const UserSchema = SchemaFactory.createForClass(UserMongo);

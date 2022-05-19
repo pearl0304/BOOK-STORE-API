@@ -16,7 +16,7 @@ export class AuthorService {
 
   async findAllAuthors(): Promise<Author[]> {
     try {
-      return this.authorModel.find().lean();
+      return await this.authorModel.find().sort({ created_date: -1 }).exec();
     } catch (e) {
       throw new ApolloError(e);
     }
@@ -24,7 +24,7 @@ export class AuthorService {
 
   async findAuthorById(authorId: string): Promise<Author> {
     try {
-      return this.authorModel.findById(authorId).exec();
+      return await this.authorModel.findById(authorId).exec();
     } catch (e) {
       throw new ApolloError(e);
     }
@@ -32,7 +32,7 @@ export class AuthorService {
 
   async createAuthor(author: CreateAuthorInput) {
     try {
-      return this.authorModel.create(author);
+      return await this.authorModel.create(author);
     } catch (e) {
       throw new ApolloError(e);
     }
