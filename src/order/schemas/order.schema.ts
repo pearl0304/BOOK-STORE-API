@@ -30,12 +30,6 @@ export class OrderMongo {
   @Prop()
   sale_price: number;
 
-  @Prop()
-  receiver: string;
-
-  @Prop()
-  sender: string;
-
   @Prop({ type: { type: mongoose.Schema.Types.ObjectId, ref: 'User' } })
   user: User;
 
@@ -50,15 +44,6 @@ export class OrderMongo {
 
   @Prop()
   total_price: number;
-
-  @Prop()
-  address1: string;
-
-  @Prop()
-  address2: string;
-
-  @Prop()
-  zip_code: string;
 }
 
 export const OrderSchema = SchemaFactory.createForClass(OrderMongo);
@@ -92,12 +77,6 @@ export class Order {
   @Field(() => ID)
   bookId: string;
 
-  @Field()
-  receiver: string;
-
-  @Field()
-  sender: string;
-
   @Field(() => User, { nullable: true })
   user: User;
 
@@ -109,15 +88,6 @@ export class Order {
 
   @Field(() => OrderStatus)
   status: string;
-
-  @Field(() => String)
-  address1: string;
-
-  @Field(() => String, { nullable: true })
-  address2: string;
-
-  @Field(() => String)
-  zip_code: string;
 }
 
 @ObjectType()

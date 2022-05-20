@@ -91,15 +91,10 @@ type Order {
   finalId: String
   userId: ID!
   bookId: ID!
-  receiver: String!
-  sender: String!
   user: User
   book: Book
   created_date: String
   status: OrderStatus!
-  address1: String!
-  address2: String
-  zip_code: String!
 }
 
 enum OrderStatus {
