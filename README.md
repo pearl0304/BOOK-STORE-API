@@ -4,9 +4,9 @@ Onlie Book Store API (STUDY)
 
 ## Use Stack
 
-NEST JS #
-GRAPHQL (CODE FRIST) #
-MONGODB #
+NEST JS  
+GRAPHQL (CODE FRIST)  
+MONGODB
 
 ## License
 
