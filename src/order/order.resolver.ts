@@ -63,6 +63,27 @@ export class OrderResolver {
     }
   }
 
+  @Mutation(() => ID)
+  async deleteOrder(@Args('orderId', { type: () => ID }) orderId: string) {
+    try {
+      return await this.orderService.deleteOrder(orderId);
+    } catch (e) {
+      throw new ApolloError(e);
+    }
+  }
+
+  @Mutation(() => Order)
+  async updateOrderStatus(
+    @Args('orderId', { type: () => ID }) orderId: string,
+    @Args('status', { type: () => OrderStatus }) status: string,
+  ) {
+    try {
+      return await this.orderService.updateOrderStatus(orderId, status);
+    } catch (e) {
+      throw new ApolloError(e);
+    }
+  }
+
   @ResolveField()
   async user(@Parent() order: Order) {
     const { userId } = order;

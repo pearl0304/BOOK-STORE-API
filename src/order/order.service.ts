@@ -18,6 +18,7 @@ export class OrderService {
     try {
       const proc = await this.orderModel
         .find({ userId: userId, status: status })
+        .sort({ created_date: -1 })
         .exec();
 
       let total_price = 0;
@@ -58,6 +59,29 @@ export class OrderService {
         id: result._id,
         ...data,
       };
+    } catch (e) {
+      throw new ApolloError(e);
+    }
+  }
+
+  async deleteOrder(orderId: string) {
+    try {
+      await this.orderModel.deleteOne({ _id: orderId });
+      return orderId;
+    } catch (e) {
+      throw new ApolloError(e);
+    }
+  }
+
+  async updateOrderStatus(orderId: string, status: string) {
+    try {
+      return await this.orderModel
+        .findOneAndUpdate(
+          { _id: orderId },
+          { $set: { status: status, updated_date: new Date() } },
+          { new: true },
+        )
+        .exec();
     } catch (e) {
       throw new ApolloError(e);
     }

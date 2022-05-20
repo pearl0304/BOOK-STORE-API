@@ -94,6 +94,7 @@ type Order {
   user: User
   book: Book
   created_date: String
+  updated_date: String
   status: OrderStatus!
 }
 
@@ -160,6 +161,8 @@ type Mutation {
   deleteUser(id: ID!): ID!
   deleteUserByAdmin(id: ID!): ID!
   createOrderList(input: createOrderListInput!): Order
+  deleteOrder(orderId: ID!): ID!
+  updateOrderStatus(orderId: ID!, status: OrderStatus!): Order!
   doLike(input: CreateLikeInput!): Like
   deleteLikeByBookId(bookId: ID!): ID!
   createTranslator(input: CreateTranlatorInput!): Tranlator!

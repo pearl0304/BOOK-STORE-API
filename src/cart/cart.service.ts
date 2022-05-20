@@ -10,7 +10,10 @@ export class CartService {
 
   async findMyCartList(userId: string): Promise<Cart[]> {
     try {
-      return await this.cartModel.find({ userId: userId }).exec();
+      return await this.cartModel
+        .find({ userId: userId })
+        .sort({ created_date: -1 })
+        .exec();
     } catch (e) {
       throw new ApolloError(e);
     }

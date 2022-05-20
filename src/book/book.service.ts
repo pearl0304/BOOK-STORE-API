@@ -15,7 +15,7 @@ export class BookService {
 
   async findAllBooks(): Promise<Book[]> {
     try {
-      return this.bookModel.find().exec();
+      return this.bookModel.find().sort({ created_date: -1 }).exec();
     } catch (e) {
       throw new ApolloError(e);
     }

@@ -10,7 +10,10 @@ export class BuyService {
 
   async findMyBuyList(userId: string) {
     try {
-      return await this.buyModel.find({ userId: userId });
+      return await this.buyModel
+        .find({ userId: userId })
+        .sort({ created_date: -1 })
+        .exec();
     } catch (e) {
       throw new ApolloError(e);
     }
@@ -18,7 +21,7 @@ export class BuyService {
 
   async findBuyListById(buyId: string) {
     try {
-      return await this.buyModel.find({ _id: buyId });
+      return await this.buyModel.find({ _id: buyId }).exec();
     } catch (e) {
       throw new ApolloError(e);
     }

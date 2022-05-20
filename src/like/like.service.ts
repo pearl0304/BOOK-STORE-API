@@ -10,7 +10,10 @@ export class LikeService {
 
   async findMyLikeList(userId: string): Promise<Like[]> {
     try {
-      return await this.likeModel.find({ userId: userId }).exec();
+      return await this.likeModel
+        .find({ userId: userId })
+        .sort({ created_date: -1 })
+        .exec();
     } catch (e) {
       throw new ApolloError(e);
     }

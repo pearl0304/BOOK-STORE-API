@@ -39,6 +39,9 @@ export class OrderMongo {
   @Prop({ type: Date })
   created_date: Date;
 
+  @Prop({ type: Date })
+  updated_date: Date;
+
   @Prop()
   status: string;
 
@@ -85,6 +88,9 @@ export class Order {
 
   @Field(() => String, { nullable: true })
   created_date: Date;
+
+  @Field(() => String, { nullable: true })
+  updated_date: Date;
 
   @Field(() => OrderStatus)
   status: string;
