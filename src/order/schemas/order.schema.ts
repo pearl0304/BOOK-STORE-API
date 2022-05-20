@@ -103,7 +103,7 @@ export class OrderResult {
 }
 
 @InputType()
-export class CreateOrderListInput {
+export class createOrderListInput {
   @Field(() => ID)
   userId: string;
 

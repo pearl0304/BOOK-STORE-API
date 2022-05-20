@@ -2,7 +2,7 @@ import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import {
-  CreateOrderListInput,
+  createOrderListInput,
   Order,
   OrderDocument,
 } from './schemas/order.schema';
@@ -44,7 +44,7 @@ export class OrderService {
     }
   }
 
-  async CreateOrderList(order: CreateOrderListInput) {
+  async createOrderList(order: createOrderListInput) {
     try {
       const data = {
         ...order,

@@ -11,7 +11,7 @@ import { OrderService } from './order.service';
 import {
   Order,
   OrderResult,
-  CreateOrderListInput,
+  createOrderListInput,
   OrderStatus,
 } from './schemas/order.schema';
 import { ApolloError } from 'apollo-server-express';
@@ -50,14 +50,14 @@ export class OrderResolver {
   }
 
   @Mutation(() => Order, { nullable: true })
-  async CreateOrderList(@Args('input') order: CreateOrderListInput) {
+  async createOrderList(@Args('input') order: createOrderListInput) {
     try {
       // CHECK BOOK STOCK
       const book = await this.bookService.findBookById(order.bookId);
       if (book.stock == 0 || book.status === 'SOLD_OUT')
         throw new ApolloError('There no stock');
 
-      return this.orderService.CreateOrderList(order);
+      return this.orderService.createOrderList(order);
     } catch (e) {
       throw new ApolloError(e);
     }

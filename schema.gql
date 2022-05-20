@@ -111,6 +111,27 @@ type OrderResult {
   total_count: Int!
 }
 
+type Buy {
+  id: ID!
+  userId: ID!
+  orderIds: [ID!]
+  order: [Order!]
+  total_price: Int!
+  receiver: String!
+  sender: String!
+  address1: String!
+  address2: String
+  zip_code: String!
+  payment_status: PaymentStatus!
+  created_date: String!
+}
+
+enum PaymentStatus {
+  BEFORE_PAYMENT
+  COMPLETE
+  REFUND
+}
+
 type Query {
   findAllAuthors: [Author]
   findAuthorById(id: ID!): Author!
@@ -125,6 +146,8 @@ type Query {
   findAllTranslators: [Tranlator]
   findTranslatorById(id: ID!): Tranlator!
   findMyCartList(userId: ID!): [Cart]
+  findMyBuyList(userId: ID!): [Buy!]!
+  findBuyListById(buyId: ID!): [Buy!]!
 }
 
 type Mutation {
@@ -136,12 +159,14 @@ type Mutation {
   updateUserInfo(id: ID!, input: UserInputType!): User!
   deleteUser(id: ID!): ID!
   deleteUserByAdmin(id: ID!): ID!
-  CreateOrderList(input: CreateOrderListInput!): Order
+  createOrderList(input: createOrderListInput!): Order
   doLike(input: CreateLikeInput!): Like
   deleteLikeByBookId(bookId: ID!): ID!
   createTranslator(input: CreateTranlatorInput!): Tranlator!
   createCart(input: CreateCartInput!): Cart
   deleteCartByBookId(bookId: ID!): ID!
+  buyBooks(input: BuyInputType!): Buy!
+  updatePaymentStatus(buyId: ID!, payment_status: PaymentStatus!): Buy!
 }
 
 input CreateAuthorInput {
@@ -181,7 +206,7 @@ input UserInputType {
   preferred_genre: String
 }
 
-input CreateOrderListInput {
+input createOrderListInput {
   userId: ID!
   bookId: ID!
   sale_price: Int!
@@ -204,4 +229,16 @@ input CreateCartInput {
   userId: ID!
   bookId: ID!
   action: ActionType!
+}
+
+input BuyInputType {
+  userId: ID!
+  orderIds: [ID!]
+  total_price: Int!
+  receiver: String!
+  sender: String!
+  address1: String!
+  address2: String
+  zip_code: String!
+  payment_status: PaymentStatus!
 }

@@ -9,6 +9,7 @@ import { OrderModule } from 'src/order/order.module';
 import { LikeModule } from 'src/like/like.module';
 import { TranslatorModule } from 'src/translator/translator.module';
 import { CartModule } from 'src/cart/cart.module';
+import { BuyModule } from 'src/buy/buy.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { CartModule } from 'src/cart/cart.module';
     LikeModule,
     TranslatorModule,
     CartModule,
+    BuyModule,
   ],
   controllers: [],
   providers: [],
