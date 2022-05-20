@@ -8,7 +8,12 @@ import {
   ID,
 } from '@nestjs/graphql';
 import { OrderService } from './order.service';
-import { Order, CreateOrderInput } from './schemas/order.schema';
+import {
+  Order,
+  OrderResult,
+  CreateOrderListInput,
+  OrderStatus,
+} from './schemas/order.schema';
 import { ApolloError } from 'apollo-server-express';
 import { BookService } from 'src/book/book.service';
 import { Book } from 'src/book/schemas/book.schema';
@@ -23,27 +28,36 @@ export class OrderResolver {
     private userService: UserService,
   ) {}
 
-  @Query(() => [Order], { nullable: 'itemsAndList' })
-  async findAllMyOrderList(@Args('userId', { type: () => ID }) userId: string) {
+  @Query(() => OrderResult, { nullable: true })
+  async findMyOrderList(
+    @Args('userId', { type: () => ID }) userId: string,
+    @Args('status', { type: () => OrderStatus }) status: string,
+  ) {
     try {
-      return this.orderService.findAllMyOrderList(userId);
+      return await this.orderService.findMyOrderList(userId, status);
     } catch (e) {
       throw new ApolloError(e);
     }
   }
 
   @Query(() => Order)
-  async findOrderById() {
+  async findOrderById(@Args('orderId', { type: () => ID }) orderId: string) {
     try {
+      return this.orderService.findOrderById(orderId);
     } catch (e) {
       throw new ApolloError(e);
     }
   }
 
   @Mutation(() => Order, { nullable: true })
-  async doOrderBook(@Args('input') order: CreateOrderInput) {
+  async CreateOrderList(@Args('input') order: CreateOrderListInput) {
     try {
-      return this.orderService.doOrderBook(order);
+      // CHECK BOOK STOCK
+      const book = await this.bookService.findBookById(order.bookId);
+      if (book.stock == 0 || book.status === 'SOLD_OUT')
+        throw new ApolloError('There no stock');
+
+      return this.orderService.CreateOrderList(order);
     } catch (e) {
       throw new ApolloError(e);
     }
@@ -59,6 +73,13 @@ export class OrderResolver {
     }
   }
 
-  // @ResolveField()
-  // async book(@Parent() order: Order) {}
+  @ResolveField()
+  async book(@Parent() order: Order) {
+    const { bookId } = order;
+    try {
+      return this.bookService.findBookById(bookId);
+    } catch (e) {
+      throw new ApolloError(e);
+    }
+  }
 }

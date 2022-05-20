@@ -14,68 +14,132 @@ import { User } from 'src/user/schemas/user.schema';
 
 export type OrderDocument = Order & Document;
 
+@Schema()
+export class OrderMongo {
+  id: string;
+
+  @Prop()
+  finalId: string;
+
+  @Prop()
+  userId: string;
+
+  @Prop()
+  bookId: string;
+
+  @Prop()
+  sale_price: number;
+
+  @Prop()
+  receiver: string;
+
+  @Prop()
+  sender: string;
+
+  @Prop({ type: { type: mongoose.Schema.Types.ObjectId, ref: 'User' } })
+  user: User;
+
+  @Prop({ type: { type: mongoose.Schema.Types.ObjectId, ref: 'Book' } })
+  book: Book[];
+
+  @Prop({ type: Date })
+  created_date: Date;
+
+  @Prop()
+  status: string;
+
+  @Prop()
+  total_price: number;
+
+  @Prop()
+  address1: string;
+
+  @Prop()
+  address2: string;
+
+  @Prop()
+  zip_code: string;
+}
+
+export const OrderSchema = SchemaFactory.createForClass(OrderMongo);
+
+/********************************
+ ************* GRAPHQL***********
+ ********************************/
+
 export enum OrderStatus {
-  PENDING,
-  READY,
-  DELIVERY,
-  DONE,
+  PENDING = 'PENDING',
+  READY = 'READY',
+  DELIVERY = 'DELIVERY',
+  RETURN = 'RETURN',
+  DONE = 'DONE',
 }
 registerEnumType(OrderStatus, {
   name: 'OrderStatus',
 });
 
-@Schema()
 @ObjectType()
 export class Order {
   @Field(() => ID)
   id: string;
 
-  @Prop()
+  @Field({ nullable: true })
+  finalId: string;
+
   @Field(() => ID)
   userId: string;
 
-  @Prop()
-  @Field(() => [String])
-  bookIds: string[];
+  @Field(() => ID)
+  bookId: string;
 
-  @Prop({ type: { type: mongoose.Schema.Types.ObjectId, ref: 'User' } })
+  @Field()
+  receiver: string;
+
+  @Field()
+  sender: string;
+
   @Field(() => User, { nullable: true })
   user: User;
 
-  @Prop({ type: { type: mongoose.Schema.Types.ObjectId, ref: 'Book' } })
-  @Field(() => [Book], { nullable: 'itemsAndList' })
-  book: Book[];
+  @Field(() => Book, { nullable: true })
+  book: Book;
 
-  @Prop({ type: Date })
   @Field(() => String, { nullable: true })
   created_date: Date;
 
-  @Prop()
   @Field(() => OrderStatus)
   status: string;
 
-  @Prop()
+  @Field(() => String)
+  address1: string;
+
+  @Field(() => String, { nullable: true })
+  address2: string;
+
+  @Field(() => String)
+  zip_code: string;
+}
+
+@ObjectType()
+export class OrderResult {
+  @Field(() => [Order], { nullable: 'itemsAndList' })
+  list: string[];
+
   @Field(() => Int)
   total_price: number;
 
-  @Prop()
-  @Field(() => String)
-  delever_address: string;
+  @Field(() => Int)
+  total_count: number;
 }
 
 @InputType()
-export class CreateOrderInput {
+export class CreateOrderListInput {
   @Field(() => ID)
   userId: string;
 
-  @Field(() => [String], { nullable: true })
-  bookIds: string[];
-
-  @Field(() => String)
-  delever_address: string;
+  @Field(() => ID)
+  bookId: string;
 
   @Field(() => Int)
-  total_price: number;
+  sale_price: number;
 }
-
-export const OrderSchema = SchemaFactory.createForClass(Order);
